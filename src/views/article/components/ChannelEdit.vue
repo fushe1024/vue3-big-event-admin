@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { artAddChannelService, artEditChannelService} from '@/api/article'
 import { ElMessage } from 'element-plus'
 const emit = defineEmits('success')
@@ -46,14 +46,14 @@ const open = (value) => {
   formData.value = { ...value }
 }
 
-// 关闭逻辑 => 关闭弹窗 = 清空表单 = 清空验证
-const close = () => {
-  dialogVisible.value = false
-  // 清空表单数据
-  clearFormData()
-  // 清空表单验证
-  formRef.value.clearValidate()
-}
+// // 关闭逻辑 => 关闭弹窗 = 清空表单 = 清空验证
+// const close = () => {
+//   dialogVisible.value = false
+//   // 清空表单数据
+//   clearFormData()
+//   // 清空表单验证
+//   formRef.value.clearValidate()
+// }
 
 // 提交表单
 const handleSubmit = async () => {
@@ -69,6 +69,15 @@ const handleSubmit = async () => {
   emit('success')
   close()
 }
+
+watch(dialogVisible,()=> {
+  if(!dialogVisible.value) {
+    // 清空表单数据
+    clearFormData()
+    // 清空表单验证
+    formRef.value.clearValidate()
+  }
+})
 
 defineExpose({
   open
@@ -89,7 +98,7 @@ defineExpose({
 
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="close">取消</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="handleSubmit">确定</el-button>
       </div>
     </template>

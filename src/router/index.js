@@ -66,7 +66,7 @@ const router = createRouter({
 // 全局前置守卫
 router.beforeEach((to, from) => {
   // 设置标题
-  document.title = to.meta.title || 'Vue3 Admin'
+  document.title = `大事件管理 - ${to.meta.title}` || 'Vue3 Admin'
 
   // 判断是否登录
   const userStore = useUserStore()

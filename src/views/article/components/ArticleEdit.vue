@@ -1,0 +1,140 @@
+<script setup>
+import { ref, nextTick } from 'vue'
+import ChannelSelect from './ChannelSelect.vue'
+import { Plus } from '@element-plus/icons-vue'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import { artPublishService } from '@/api/article'
+
+const drawerVisible = ref(false)
+const formRef = ref(null)
+// 默认数据
+const defaultForm = {
+  title: '',
+  cate_id: '',
+  cover_img: '',
+  content: '',
+  state: ''
+}
+// 表单数据
+const formModel = ref({ ...defaultForm })
+
+// 图片预览
+const imageUrl = ref('')
+const handleAvatar = (file) => {
+  imageUrl.value = URL.createObjectURL(file.raw)
+  formModel.value.cover_img = file.raw
+}
+
+
+const emit = defineEmits(['success'])
+// 提交表单
+const onSubmit = async (state) => {
+  formModel.value.state = state   // 添加发布状态
+
+  // 准备 fomrdata 数据
+  const fd = new FormData()
+  for (const key in formModel.value) {
+    fd.append(key, formModel.value[key])
+  }
+
+  if (formModel.value.id) {
+    console.log('编辑操作')
+  } else {
+    await artPublishService(fd)
+    ElMessage.success('添加成功')
+    drawerVisible.value = false
+    emit('success', 'add')
+  }
+
+}
+
+
+const editorRef = ref(null)
+// 打开抽屉
+const openDrawer = (row) => {
+  drawerVisible.value = true
+  if (row.id) {
+    console.log('编辑回显')
+  } else {
+    formModel.value = { ...defaultForm } // 重置表单数据
+    imageUrl.value = '' // 重置img上传
+    // 等待渲染完成清空编辑器 => （抽屉打开时编辑器还没渲染完成，控制台会报错）
+    nextTick(() => {
+      editorRef.value.setHTML('') // 清空编辑器
+    })
+  }
+}
+
+defineExpose({
+  openDrawer
+})
+</script>
+
+<template>
+  <el-drawer v-model="drawerVisible" title="发布文章" direction="rtl" size="50%">
+    <!-- 发表文章表单 -->
+    <el-form :model="formModel" ref="formRef">
+      <el-form-item label="文章标题" prop="title">
+        <el-input v-model="formModel.title" placeholder="请输入标题"></el-input>
+      </el-form-item>
+      <el-form-item label="文章分类" prop="cate_id">
+        <channel-select v-model="formModel.cate_id"></channel-select>
+      </el-form-item>
+      <el-form-item label="文章封面" prop="cover_img">
+        <el-upload class="avatar-uploader" :show-file-list="false" :on-change="handleAvatar" :auto-upload="false">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <el-icon v-else class="avatar-uploader-icon">
+            <Plus />
+          </el-icon>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="文章内容" prop="content">
+        <div class="editor">
+          <QuillEditor ref="editorRef" v-model:content="formModel.content" content-type="html" theme="snow" />
+        </div>
+      </el-form-item>
+      <el-form-item>
+        <el-button @click="onSubmit('已发布')" type="primary">发布</el-button>
+        <el-button @click="onSubmit('草稿')" type="info">草稿</el-button>
+      </el-form-item>
+    </el-form>
+  </el-drawer>
+</template>
+
+<style scoped lang="scss">
+.avatar-uploader {
+  :deep() {
+    .avatar {
+      width: 178px;
+      height: 178px;
+      display: block;
+    }
+    .el-upload {
+      border: 1px dashed var(--el-border-color);
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: var(--el-transition-duration-fast);
+    }
+    .el-upload:hover {
+      border-color: var(--el-color-primary);
+    }
+    .el-icon.avatar-uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 178px;
+      height: 178px;
+      text-align: center;
+    }
+  }
+}
+
+.editor {
+  width: 100%;
+  :deep(.ql-editor) {
+    min-height: 200px;
+  }
+}
+</style>

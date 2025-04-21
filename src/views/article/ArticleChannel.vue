@@ -52,11 +52,12 @@ const onDelChannel = async (row) => {
       <el-button type="primary" @click="onAddChannel">添加分类</el-button>
     </template>
 
+    <!-- table 部分 -->
     <el-table v-loading="isLoading" :data="channelList" style="width: 100%;">
-      <el-table-column type="index" label="序号" width="120" />
+      <el-table-column type="index" label="序号" width="80" align="center" />
       <el-table-column prop="cate_name" label="分类名称" />
       <el-table-column prop="cate_alias" label="分类别名" />
-      <el-table-column label="操作" width="100">
+      <el-table-column label="操作" width="150" align="center">
         <!-- table-column 自定义插槽 -->
         <template #default="{ row }">
           <el-button circle plain type="primary" :icon="Edit" @click="onEditChannel(row)"></el-button>
@@ -69,6 +70,8 @@ const onDelChannel = async (row) => {
         <el-empty description="暂无数据" />
       </template>
     </el-table>
+
+    <!-- diaLog 弹窗组件 -->
     <channel-edit ref="dialog" @success="getChannelList"></channel-edit>
   </MyCard>
 </template>
