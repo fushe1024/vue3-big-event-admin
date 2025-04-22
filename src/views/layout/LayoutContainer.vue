@@ -32,7 +32,7 @@ const onCommand = async (command) => {
     userStore.removeToken()
     userStore.removeUserInfo()
     // 去登录页
-    router.push('/login')
+    router.replace('/login')
   } else {
     // 跳转到对应的路由
     router.push(`/user/${command}`)
@@ -43,7 +43,7 @@ const onCommand = async (command) => {
 <template>
   <el-container class="layout-container">
     <el-aside width="200px">
-      <div class="el-aside__logo"></div>
+      <div @click="router.replace('/')" class="el-aside__logo"></div>
       <el-menu
         active-text-color="#ffd04b"
         background-color="#232323"
@@ -122,6 +122,7 @@ const onCommand = async (command) => {
     &__logo {
       height: 120px;
       background: url('@/assets/logo.png') no-repeat center / 120px auto;
+      cursor: pointer;
     }
     .el-menu {
       border-right: none;

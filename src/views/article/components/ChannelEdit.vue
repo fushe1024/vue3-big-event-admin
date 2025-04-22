@@ -2,7 +2,6 @@
 import { ref, watch } from 'vue'
 import { artAddChannelService, artEditChannelService} from '@/api/article'
 import { ElMessage } from 'element-plus'
-const emit = defineEmits('success')
 
 const dialogVisible = ref(false)
 
@@ -47,14 +46,16 @@ const open = (value) => {
 }
 
 // // 关闭逻辑 => 关闭弹窗 = 清空表单 = 清空验证
-// const close = () => {
-//   dialogVisible.value = false
-//   // 清空表单数据
-//   clearFormData()
-//   // 清空表单验证
-//   formRef.value.clearValidate()
-// }
+const close = () => {
+  dialogVisible.value = false
+  // 清空表单数据
+  clearFormData()
+  // 清空表单验证
+  formRef.value.clearValidate()
+}
 
+
+const emit = defineEmits(['success'])
 // 提交表单
 const handleSubmit = async () => {
   await formRef.value.validate()

@@ -58,7 +58,6 @@ const register = async () => {
   await userRegisterService(formModel.value)
   ElMessage.success('注册成功')
   isRegister.value = false
-  clearFormData()
 }
 
 
@@ -69,11 +68,10 @@ const login = () => {
       const { data } = await userLoginService(formModel.value)
       userStore.setToken(data.token)
       ElMessage.success('登录成功')
-      router.push('/')
+      router.replace('/')
       clearFormData()
     } else {
-      console.log('登录失败')
-      return false
+      ElMessage.error('登录失败')
     }
   })
 }

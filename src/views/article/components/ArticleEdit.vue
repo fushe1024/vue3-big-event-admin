@@ -4,10 +4,13 @@ import ChannelSelect from './ChannelSelect.vue'
 import { Plus } from '@element-plus/icons-vue'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import { artPublishService } from '@/api/article'
+import { artPublishService, artGetDetailService,artUpdateService } from '@/api/article'
+import {baseURL} from '@/utils/request'
+import {convertUrlToFile} from '@/utils/urlToFile'
 
+// 控制抽屉显示隐藏
 const drawerVisible = ref(false)
-const formRef = ref(null)
+
 // 默认数据
 const defaultForm = {
   title: '',
@@ -16,19 +19,19 @@ const defaultForm = {
   content: '',
   state: ''
 }
-// 表单数据
+// 表单绑定数据
 const formModel = ref({ ...defaultForm })
 
-// 图片预览
+// 图片本地预览
 const imageUrl = ref('')
 const handleAvatar = (file) => {
   imageUrl.value = URL.createObjectURL(file.raw)
   formModel.value.cover_img = file.raw
 }
 
-
+// 提交逻辑
+const formRef = ref(null)
 const emit = defineEmits(['success'])
-// 提交表单
 const onSubmit = async (state) => {
   formModel.value.state = state   // 添加发布状态
 
@@ -38,28 +41,42 @@ const onSubmit = async (state) => {
     fd.append(key, formModel.value[key])
   }
 
+  // 如果有 id 说明是编辑操作
   if (formModel.value.id) {
-    console.log('编辑操作')
+    await artUpdateService(fd)
+    emit('success', 'edit')
+    ElMessage.success('编辑成功')
+    drawerVisible.value = false
   } else {
     await artPublishService(fd)
     ElMessage.success('添加成功')
     drawerVisible.value = false
     emit('success', 'add')
   }
-
 }
 
 
+// 富文本编辑器
 const editorRef = ref(null)
-// 打开抽屉
-const openDrawer = (row) => {
+
+// 打开抽屉逻辑
+const openDrawer = async (row) => {
   drawerVisible.value = true
+  // 有 id 调用接口 获取数据 回显
   if (row.id) {
-    console.log('编辑回显')
+    const res = await artGetDetailService(row.id)
+    formModel.value = res.data.data
+
+    // 拼接图片地址
+    imageUrl.value = baseURL + res.data.data.cover_img
+
+    // 将图片地址转换为file对象
+    formModel.value.cover_img = await convertUrlToFile(imageUrl.value)
   } else {
-    formModel.value = { ...defaultForm } // 重置表单数据
-    imageUrl.value = '' // 重置img上传
-    // 等待渲染完成清空编辑器 => （抽屉打开时编辑器还没渲染完成，控制台会报错）
+    // 重置表单
+    formModel.value = { ...defaultForm }
+    imageUrl.value = '' // 重置img
+    // 等待渲染完成清空编辑器
     nextTick(() => {
       editorRef.value.setHTML('') // 清空编辑器
     })

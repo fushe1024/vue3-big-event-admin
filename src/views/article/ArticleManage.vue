@@ -78,9 +78,11 @@ const onDelManage = async (row) => {
   getManageList()
 }
 
+// 发布成功回调
+// type: add 发布文章，edit 编辑文章
 const onSuccess = (type) => {
   if(type === 'add') {
-    // 添加成功后重新获取数据
+    // 计算最后一页
     const lastPage = Math.ceil((total.value + 1) / params.value.pagesize)
     if (lastPage !== params.value.pagenum) {
       params.value.pagenum = lastPage

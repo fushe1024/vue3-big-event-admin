@@ -10,6 +10,7 @@ export const useUserStore = defineStore('user',() => {
 
   const userInfo = ref({})
   const removeUserInfo = () => (userInfo.value = {}) // 清除用户信息
+
   // 获取用户信息
   const getUser = async () => {
     const res = await userGetInfoService() // 请求获取数据
