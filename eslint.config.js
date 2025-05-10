@@ -7,7 +7,7 @@ import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 export default defineConfig([
   {
     name: 'app/files-to-lint',
-    files: ['**/*.{js,mjs,jsx,vue}'],
+    files: ['**/*.{js,mjs,jsx,vue}']
   },
 
   globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
@@ -16,58 +16,50 @@ export default defineConfig([
     languageOptions: {
       globals: {
         ...globals.browser,
-      },
-    },
+        // 声明 El 开头的组件为全局变量
+        ElMessageBox: 'readonly',
+        ElMessage: 'readonly'
+      }
+    }
   },
 
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
   skipFormatting,
 
-  // vue
+  // vue 文件配置
   {
     files: ['**/*.vue'],
     languageOptions: {
       parserOptions: {
-        ecmaVersion: 'latest',
-      },
+        ecmaVersion: 'latest'
+      }
     },
     rules: {
-      'prettier/prettier': [
-        'warn',
-        {
-          singleQuote: true,
-          semi: false,
-          printWidth: 80,
-          trailingComma: 'none',
-          endOfLine: 'auto'
-        }
-      ],
       'vue/multi-word-component-names': [
         'warn',
         {
-          ignores: ['index'] // vue组件名称多单词组成（忽略index.vue）
+          ignores: ['index']
         }
       ],
-      'vue/no-setup-props-destructure': ['off'], // 关闭 props 解构的校验
-    },
+      'vue/no-setup-props-destructure': ['off'],
+      // 新增组件命名规则例外
+      'vue/component-name-in-template-casing': [
+        'error',
+        'PascalCase',
+        {
+          ignores: ['/^el-/']
+        }
+      ]
+    }
   },
 
   // 自定义规则
   {
     rules: {
-      'prettier/prettier': [
-        'warn',
-        {
-          singleQuote: true,
-          semi: false,
-          printWidth: 80,
-          trailingComma: 'none',
-          endOfLine: 'auto'
-        }
-      ],
       'no-undef': 'error',
-      'no-console': 'error'
+      'no-console': 'error',
+      'vue/no-undef-components': 'off'
     }
   }
 ])

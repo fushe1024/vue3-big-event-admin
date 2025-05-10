@@ -3,10 +3,10 @@ import { ref, nextTick } from 'vue'
 import ChannelSelect from './ChannelSelect.vue'
 import { Plus } from '@element-plus/icons-vue'
 import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import { artPublishService, artGetDetailService,artUpdateService } from '@/api/article'
-import {baseURL} from '@/utils/request'
-import {convertUrlToFile} from '@/utils/urlToFile'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { artPublishService, artGetDetailService, artUpdateService } from '@/api/article'
+import { baseURL } from '@/utils/request'
+import { convertUrlToFile } from '@/utils/urlToFile'
 
 // 控制抽屉显示隐藏
 const drawerVisible = ref(false)
@@ -33,7 +33,7 @@ const handleAvatar = (file) => {
 const formRef = ref(null)
 const emit = defineEmits(['success'])
 const onSubmit = async (state) => {
-  formModel.value.state = state   // 添加发布状态
+  formModel.value.state = state // 添加发布状态
 
   // 准备 fomrdata 数据
   const fd = new FormData()
@@ -54,7 +54,6 @@ const onSubmit = async (state) => {
     emit('success', 'add')
   }
 }
-
 
 // 富文本编辑器
 const editorRef = ref(null)
@@ -96,10 +95,15 @@ defineExpose({
         <el-input v-model="formModel.title" placeholder="请输入标题"></el-input>
       </el-form-item>
       <el-form-item label="文章分类" prop="cate_id">
-        <channel-select v-model="formModel.cate_id"></channel-select>
+        <ChannelSelect v-model="formModel.cate_id"></ChannelSelect>
       </el-form-item>
       <el-form-item label="文章封面" prop="cover_img">
-        <el-upload class="avatar-uploader" :show-file-list="false" :on-change="handleAvatar" :auto-upload="false">
+        <el-upload
+          class="avatar-uploader"
+          :show-file-list="false"
+          :on-change="handleAvatar"
+          :auto-upload="false"
+        >
           <img v-if="imageUrl" :src="imageUrl" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon">
             <Plus />
@@ -108,7 +112,12 @@ defineExpose({
       </el-form-item>
       <el-form-item label="文章内容" prop="content">
         <div class="editor">
-          <QuillEditor ref="editorRef" v-model:content="formModel.content" content-type="html" theme="snow" />
+          <QuillEditor
+            ref="editorRef"
+            v-model:content="formModel.content"
+            content-type="html"
+            theme="snow"
+          />
         </div>
       </el-form-item>
       <el-form-item>

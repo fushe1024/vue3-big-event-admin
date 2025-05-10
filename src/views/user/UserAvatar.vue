@@ -12,13 +12,13 @@ const imgUrl = ref(userStore.userInfo.user_pic || '')
 const isDisabled = ref(true)
 
 // 触发文件上传
-const onUploadFile = file => {
+const onUploadFile = (file) => {
   // 打开上传按钮
   isDisabled.value = false
   // 将文件转换为 Base 64 格式
   const reader = new FileReader()
   reader.readAsDataURL(file.raw)
-  reader.onload = e => {
+  reader.onload = (e) => {
     imgUrl.value = e.target.result
   }
 }
@@ -35,16 +35,19 @@ const onUploadImg = async () => {
   await userStore.getUser()
   ElMessage.success('头像更换成功')
 }
-
-
 </script>
 
 <template>
   <MyCard title="更换头像">
     <el-row>
       <el-col :span="12">
-        <el-upload ref="uploadRef" class="avatar-uploader" :auto-upload="false" :show-file-list="false"
-          :on-change="onUploadFile">
+        <el-upload
+          ref="uploadRef"
+          class="avatar-uploader"
+          :auto-upload="false"
+          :show-file-list="false"
+          :on-change="onUploadFile"
+        >
           <img v-if="imgUrl" :src="imgUrl" class="avatar" />
           <img v-else src="@/assets/avatar.jpg" width="278" />
         </el-upload>
@@ -52,7 +55,13 @@ const onUploadImg = async () => {
         <el-button @click="onUploadBtn" type="primary" :icon="Plus" size="large">
           选择图片
         </el-button>
-        <el-button @click="onUploadImg" type="success" :icon="Upload" size="large" :disabled="isDisabled">
+        <el-button
+          @click="onUploadImg"
+          type="success"
+          :icon="Upload"
+          size="large"
+          :disabled="isDisabled"
+        >
           上传头像
         </el-button>
       </el-col>

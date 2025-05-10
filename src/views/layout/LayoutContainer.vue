@@ -22,7 +22,7 @@ onMounted(() => {
 
 // 下拉菜单命令
 const onCommand = async (command) => {
-  if(command === 'logout') {
+  if (command === 'logout') {
     await ElMessageBox.confirm('你确认退出吗？', '温馨提示', {
       type: 'warning',
       confirmButtonText: '确认',
@@ -81,27 +81,23 @@ const onCommand = async (command) => {
     </el-aside>
     <el-container>
       <el-header>
-        <div>管理员：<strong>{{ userStore.userInfo.nickname || userStore.userInfo.username }}</strong></div>
+        <div>
+          管理员：<strong>
+            {{ userStore.userInfo.nickname || userStore.userInfo.username }}
+          </strong>
+        </div>
         <!-- 下拉菜单 -->
-        <el-dropdown placement="bottom-end"  @command="onCommand">
+        <el-dropdown placement="bottom-end" @command="onCommand">
           <span class="el-dropdown__box">
             <el-avatar :src="userStore.userInfo.user_pic || avatar" />
             <el-icon><CaretBottom /></el-icon>
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="profile" :icon="User"
-                >基本资料</el-dropdown-item
-              >
-              <el-dropdown-item command="avatar" :icon="Crop"
-                >更换头像</el-dropdown-item
-              >
-              <el-dropdown-item command="password" :icon="EditPen"
-                >重置密码</el-dropdown-item
-              >
-              <el-dropdown-item command="logout" :icon="SwitchButton"
-                >退出登录</el-dropdown-item
-              >
+              <el-dropdown-item command="profile" :icon="User">基本资料</el-dropdown-item>
+              <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>
+              <el-dropdown-item command="password" :icon="EditPen">重置密码</el-dropdown-item>
+              <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>

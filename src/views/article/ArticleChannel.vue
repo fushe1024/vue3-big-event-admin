@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { artGetChannelsService,artDelChannelService } from '@/api/article'
+import { ref } from 'vue'
+import { artGetChannelsService, artDelChannelService } from '@/api/article'
 import { Edit, Delete } from '@element-plus/icons-vue'
 import ChannelEdit from './components/ChannelEdit.vue'
 
@@ -16,7 +16,6 @@ const getChannelList = async () => {
   isLoading.value = false
 }
 getChannelList()
-
 
 // 添加分类
 const onAddChannel = () => {
@@ -53,15 +52,27 @@ const onDelChannel = async (row) => {
     </template>
 
     <!-- table 部分 -->
-    <el-table v-loading="isLoading" :data="channelList" style="width: 100%;">
+    <el-table v-loading="isLoading" :data="channelList" style="width: 100%">
       <el-table-column type="index" label="序号" width="80" align="center" />
       <el-table-column prop="cate_name" label="分类名称" />
       <el-table-column prop="cate_alias" label="分类别名" />
       <el-table-column label="操作" width="150" align="center">
         <!-- table-column 自定义插槽 -->
         <template #default="{ row }">
-          <el-button circle plain type="primary" :icon="Edit" @click="onEditChannel(row)"></el-button>
-          <el-button circle plain type="danger" :icon="Delete" @click="onDelChannel(row)"></el-button>
+          <el-button
+            circle
+            plain
+            type="primary"
+            :icon="Edit"
+            @click="onEditChannel(row)"
+          ></el-button>
+          <el-button
+            circle
+            plain
+            type="danger"
+            :icon="Delete"
+            @click="onDelChannel(row)"
+          ></el-button>
         </template>
       </el-table-column>
 
@@ -72,7 +83,7 @@ const onDelChannel = async (row) => {
     </el-table>
 
     <!-- diaLog 弹窗组件 -->
-    <channel-edit ref="dialog" @success="getChannelList"></channel-edit>
+    <ChannelEdit ref="dialog" @success="getChannelList"></ChannelEdit>
   </MyCard>
 </template>
 

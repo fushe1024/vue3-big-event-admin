@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import {useUserStore} from '@/stores/index'
+import { useUserStore } from '@/stores/index'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,8 +64,10 @@ const router = createRouter({
 })
 
 // 全局前置守卫
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   // 设置标题
+
+  // eslint-disable-next-line no-constant-binary-expression
   document.title = `大事件管理 - ${to.meta.title}` || 'Vue3 Admin'
 
   // 判断是否登录

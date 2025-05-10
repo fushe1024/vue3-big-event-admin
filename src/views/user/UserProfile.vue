@@ -5,7 +5,8 @@ import { userUpdateInfoService } from '@/api/user'
 
 // 解构仓库数据
 const {
-  userInfo: { username, nickname, email, id }, getUser
+  userInfo: { username, nickname, email, id },
+  getUser
 } = useUserStore()
 
 // 表单数据
@@ -63,31 +64,31 @@ const submitForm = () => {
 <template>
   <MyCard title="基本资料">
     <el-form
-    :model="form"
-    :rules="rules"
-    ref="formRef"
-    label-width="100px"
-    style="max-width: 600px"
-  >
-    <!-- 登录名称 -->
-    <el-form-item label="登录名称" prop="username">
-      <el-input v-model="form.username" disabled />
-    </el-form-item>
+      :model="form"
+      :rules="rules"
+      ref="formRef"
+      label-width="100px"
+      style="max-width: 600px"
+    >
+      <!-- 登录名称 -->
+      <el-form-item label="登录名称" prop="username">
+        <el-input v-model="form.username" disabled />
+      </el-form-item>
 
-    <!-- 用户昵称 -->
-    <el-form-item label="用户昵称" prop="nickname">
-      <el-input v-model="form.nickname" placeholder="请输入昵称" />
-    </el-form-item>
+      <!-- 用户昵称 -->
+      <el-form-item label="用户昵称" prop="nickname">
+        <el-input v-model="form.nickname" placeholder="请输入昵称" />
+      </el-form-item>
 
-    <!-- 用户邮箱 -->
-    <el-form-item label="用户邮箱" prop="email">
-      <el-input v-model="form.email" placeholder="请输入邮箱" />
-    </el-form-item>
+      <!-- 用户邮箱 -->
+      <el-form-item label="用户邮箱" prop="email">
+        <el-input v-model="form.email" placeholder="请输入邮箱" />
+      </el-form-item>
 
-    <!-- 提交按钮 -->
-    <el-form-item>
-      <el-button type="primary" @click="submitForm">提交修改</el-button>
-    </el-form-item>
-  </el-form>
+      <!-- 提交按钮 -->
+      <el-form-item>
+        <el-button type="primary" @click="submitForm">提交修改</el-button>
+      </el-form-item>
+    </el-form>
   </MyCard>
 </template>

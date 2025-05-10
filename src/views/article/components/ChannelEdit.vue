@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { artAddChannelService, artEditChannelService} from '@/api/article'
+import { artAddChannelService, artEditChannelService } from '@/api/article'
 import { ElMessage } from 'element-plus'
 
 const dialogVisible = ref(false)
@@ -38,7 +38,6 @@ const rules = {
   ]
 }
 
-
 // 打开弹窗
 const open = (value) => {
   dialogVisible.value = true
@@ -54,12 +53,11 @@ const close = () => {
   formRef.value.clearValidate()
 }
 
-
 const emit = defineEmits(['success'])
 // 提交表单
 const handleSubmit = async () => {
   await formRef.value.validate()
-  if(formData.value.id) {
+  if (formData.value.id) {
     await artEditChannelService(formData.value)
     ElMessage.success('修改成功')
   } else {
@@ -71,8 +69,8 @@ const handleSubmit = async () => {
   close()
 }
 
-watch(dialogVisible,()=> {
-  if(!dialogVisible.value) {
+watch(dialogVisible, () => {
+  if (!dialogVisible.value) {
     // 清空表单数据
     clearFormData()
     // 清空表单验证
@@ -88,12 +86,12 @@ defineExpose({
 <template>
   <el-dialog v-model="dialogVisible" :title="formData.id ? '编辑分类' : '添加分类'" width="500">
     <!-- 表单 -->
-    <el-form :model="formData" :rules="rules" ref="formRef" style="padding: 5px 20px;">
-      <el-form-item label="分类名称"  prop="cate_name">
-        <el-input v-model="formData.cate_name"/>
+    <el-form :model="formData" :rules="rules" ref="formRef" style="padding: 5px 20px">
+      <el-form-item label="分类名称" prop="cate_name">
+        <el-input v-model="formData.cate_name" />
       </el-form-item>
       <el-form-item label="分类别名" prop="cate_alias">
-        <el-input v-model="formData.cate_alias"/>
+        <el-input v-model="formData.cate_alias" />
       </el-form-item>
     </el-form>
 

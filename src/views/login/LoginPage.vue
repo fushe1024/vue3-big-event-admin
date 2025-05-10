@@ -1,12 +1,11 @@
 <script setup>
 import { User, Lock } from '@element-plus/icons-vue'
-import {userRegisterService, userLoginService} from '@/api/user'
+import { userRegisterService, userLoginService } from '@/api/user'
 import { ref, watch } from 'vue'
 import { useUserStore } from '@/stores/index'
-import {useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
 const userStore = useUserStore()
 const router = useRouter()
-
 
 // 是否注册
 const isRegister = ref(false)
@@ -18,10 +17,10 @@ const formModel = ref({
 })
 // 清空表单
 const clearFormData = () => {
-    formModel.value = {
-      username: '',
-      password: '',
-      repassword: ''
+  formModel.value = {
+    username: '',
+    password: '',
+    repassword: ''
   }
 }
 
@@ -47,7 +46,8 @@ const rules = {
         } else {
           callback()
         }
-      }, trigger: 'blur'
+      },
+      trigger: 'blur'
     }
   ]
 }
@@ -59,7 +59,6 @@ const register = async () => {
   ElMessage.success('注册成功')
   isRegister.value = false
 }
-
 
 // 登录逻辑
 const login = () => {
@@ -76,12 +75,10 @@ const login = () => {
   })
 }
 
-
 // 切换登录注册 => 清空 表单数据
-watch(isRegister,()=> {
+watch(isRegister, () => {
   clearFormData()
 })
-
 </script>
 
 <template>
@@ -89,15 +86,23 @@ watch(isRegister,()=> {
     <el-col :span="12" class="bg"></el-col>
     <el-col :span="6" :offset="3" class="form">
       <!-- 注册 -->
-      <el-form ref="form" :rules="rules" :model="formModel" size="large" autocomplete="off" v-if="isRegister">
+      <el-form
+        ref="form"
+        :rules="rules"
+        :model="formModel"
+        size="large"
+        autocomplete="off"
+        v-if="isRegister"
+      >
         <el-form-item>
           <h1>注册</h1>
         </el-form-item>
         <el-form-item prop="username">
           <el-input
-          v-model="formModel.username"
-          :prefix-icon="User"
-          placeholder="请输入用户名"></el-input>
+            v-model="formModel.username"
+            :prefix-icon="User"
+            placeholder="请输入用户名"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
@@ -123,9 +128,7 @@ watch(isRegister,()=> {
           </el-button>
         </el-form-item>
         <el-form-item class="flex">
-          <el-link type="info" :underline="false" @click="isRegister = false">
-            ← 返回登录
-          </el-link>
+          <el-link type="info" :underline="false" @click="isRegister = false"> ← 返回登录 </el-link>
         </el-form-item>
       </el-form>
       <!-- 登录 -->
@@ -134,7 +137,11 @@ watch(isRegister,()=> {
           <h1>登录</h1>
         </el-form-item>
         <el-form-item prop="username">
-          <el-input v-model="formModel.username" :prefix-icon="User" placeholder="请输入用户名"></el-input>
+          <el-input
+            v-model="formModel.username"
+            :prefix-icon="User"
+            placeholder="请输入用户名"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input
@@ -153,9 +160,7 @@ watch(isRegister,()=> {
           </div>
         </el-form-item>
         <el-form-item>
-          <el-button @click="login" class="button" type="primary" auto-insert-space
-            >登录</el-button
-          >
+          <el-button @click="login" class="button" type="primary" auto-insert-space>登录</el-button>
         </el-form-item>
         <el-form-item class="flex">
           <el-link type="info" :underline="false" @click="isRegister = true">
@@ -172,7 +177,8 @@ watch(isRegister,()=> {
   height: 100vh;
   background-color: #fff;
   .bg {
-    background: url('@/assets/logo2.png') no-repeat 60% center / 240px auto,
+    background:
+      url('@/assets/logo2.png') no-repeat 60% center / 240px auto,
       url('@/assets/login_bg.jpg') no-repeat center / cover;
     border-radius: 0 20px 20px 0;
   }

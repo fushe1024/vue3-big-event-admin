@@ -4,7 +4,7 @@ import { artGetListService, artDelArticleService } from '@/api/article'
 import { formatTime } from '@/utils/format'
 import ChannelSelect from './components/ChannelSelect.vue'
 import ArticleEdit from './components/ArticleEdit.vue'
-import { ref,watch } from 'vue'
+import { ref, watch } from 'vue'
 
 // 文章列表
 const manageList = ref([])
@@ -47,13 +47,18 @@ const onReset = () => {
 }
 
 // 分页器逻辑
-watch(() => params.value.pagenum, () => getManageList())
-watch(() => params.value.pagesize, () => {
-  params.value.pagenum = 1
-  // 重新获取数据
-  getManageList()
-})
-
+watch(
+  () => params.value.pagenum,
+  () => getManageList()
+)
+watch(
+  () => params.value.pagesize,
+  () => {
+    params.value.pagenum = 1
+    // 重新获取数据
+    getManageList()
+  }
+)
 
 // 编辑文章逻辑
 const editDrawer = ref(null)
@@ -81,7 +86,7 @@ const onDelManage = async (row) => {
 // 发布成功回调
 // type: add 发布文章，edit 编辑文章
 const onSuccess = (type) => {
-  if(type === 'add') {
+  if (type === 'add') {
     // 计算最后一页
     const lastPage = Math.ceil((total.value + 1) / params.value.pagesize)
     if (lastPage !== params.value.pagenum) {
@@ -100,10 +105,10 @@ const onSuccess = (type) => {
     </template>
     <!-- form 部分 -->
     <el-form inline>
-      <el-form-item label="文章分类：" style="width: 300px;">
-        <channel-select v-model="params.cate_id"></channel-select>
+      <el-form-item label="文章分类：" style="width: 300px">
+        <ChannelSelect v-model="params.cate_id"></ChannelSelect>
       </el-form-item>
-      <el-form-item label="发布状态：" style="width: 300px;">
+      <el-form-item label="发布状态：" style="width: 300px">
         <el-select v-model="params.state">
           <el-option label="已发布" value="已发布"></el-option>
           <el-option label="草稿" value="草稿"></el-option>
@@ -116,7 +121,7 @@ const onSuccess = (type) => {
     </el-form>
 
     <!-- table 部分 -->
-    <el-table v-loading="isLoading" :data="manageList" style="width: 100%;">
+    <el-table v-loading="isLoading" :data="manageList" style="width: 100%">
       <el-table-column prop="title" label="文章标题" />
       <el-table-column prop="cate_name" label="文章分类" />
       <el-table-column label="发表时间">
@@ -128,8 +133,20 @@ const onSuccess = (type) => {
       <el-table-column label="操作" width="150" align="center">
         <!-- table-column 自定义插槽 -->
         <template #default="{ row }">
-          <el-button circle plain type="primary" :icon="Edit" @click="onEditManage(row)"></el-button>
-          <el-button circle plain type="danger" :icon="Delete" @click="onDelManage(row)"></el-button>
+          <el-button
+            circle
+            plain
+            type="primary"
+            :icon="Edit"
+            @click="onEditManage(row)"
+          ></el-button>
+          <el-button
+            circle
+            plain
+            type="danger"
+            :icon="Delete"
+            @click="onDelManage(row)"
+          ></el-button>
         </template>
       </el-table-column>
       <!-- table 空数据插槽 -->
@@ -140,13 +157,18 @@ const onSuccess = (type) => {
 
     <!-- 分页器部分 -->
     <div class="my-pagination">
-      <el-pagination :page-sizes="[2, 3, 5, 10]" v-model:current-page="params.pagenum"
-        v-model:page-size="params.pagesize" :background="true" layout="jumper, total, sizes, prev, pager, next"
-        :total="total" />
+      <el-pagination
+        :page-sizes="[2, 3, 5, 10]"
+        v-model:current-page="params.pagenum"
+        v-model:page-size="params.pagesize"
+        :background="true"
+        layout="jumper, total, sizes, prev, pager, next"
+        :total="total"
+      />
     </div>
 
     <!-- 编辑文章抽屉 -->
-    <article-edit ref="editDrawer" @success="onSuccess"></article-edit>
+    <ArticleEdit ref="editDrawer" @success="onSuccess"></ArticleEdit>
   </MyCard>
 </template>
 

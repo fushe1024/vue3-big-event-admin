@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import {useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { userUpdatePasswordService } from '@/api/user'
 import { useUserStore } from '@/stores'
 const userStore = useUserStore()
@@ -71,20 +71,41 @@ const resetForm = () => {
 
 <template>
   <MyCard title="重置密码">
-    <el-form ref="formRef" :model="pwdForm" :rules="rules" label-width="100px" style="max-width: 600px">
+    <el-form
+      ref="formRef"
+      :model="pwdForm"
+      :rules="rules"
+      label-width="100px"
+      style="max-width: 600px"
+    >
       <!-- 原密码 -->
       <el-form-item label="原密码" prop="old_pwd">
-        <el-input v-model="pwdForm.old_pwd" type="password" show-password placeholder="请输入原密码" />
+        <el-input
+          v-model="pwdForm.old_pwd"
+          type="password"
+          show-password
+          placeholder="请输入原密码"
+        />
       </el-form-item>
 
       <!-- 新密码 -->
       <el-form-item label="新密码" prop="new_pwd">
-        <el-input v-model="pwdForm.new_pwd" type="password" show-password placeholder="请输入新密码" />
+        <el-input
+          v-model="pwdForm.new_pwd"
+          type="password"
+          show-password
+          placeholder="请输入新密码"
+        />
       </el-form-item>
 
       <!-- 确认密码 -->
       <el-form-item label="确认密码" prop="re_pwd">
-        <el-input v-model="pwdForm.re_pwd" type="password" show-password placeholder="请再次输入新密码" />
+        <el-input
+          v-model="pwdForm.re_pwd"
+          type="password"
+          show-password
+          placeholder="请再次输入新密码"
+        />
       </el-form-item>
 
       <!-- 操作按钮 -->

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 import { artGetChannelsService } from '@/api/article'
 const model = defineModel()
 
@@ -12,12 +12,16 @@ const getChannelList = async () => {
   channelList.value = res.data.data
 }
 getChannelList()
-
 </script>
 
 <template>
   <el-select v-model="model">
-    <el-option v-for="item in channelList" :key="item.id" :label="item.cate_name" :value="item.id"></el-option>
+    <el-option
+      v-for="item in channelList"
+      :key="item.id"
+      :label="item.cate_name"
+      :value="item.id"
+    ></el-option>
   </el-select>
 </template>
 
